@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>web
+  Network Session</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:#010101;
+  color:#00ff66;
+  font-family: monospace;
+  height:100vh;
+  overflow:hidden;
+}
+.screen{
+  width:100%;
+  height:100%;
+  padding:18px;
+}
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+.header strong{
+  letter-spacing:1px;
+}
+.lights span{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  margin-left:6px;
+}
+.red{
+  background:#ff2f2f;
+  box-shadow:0 0 10px #ff2f2f;
+}
+.green{
+  background:#00ff66;
+  box-shadow:0 0 10px #00ff66;
+  animation:blink 1s infinite;
+}
+@keyframes blink{
+  50%{opacity:.25}
+}
+.terminal{
+  background:#000;
+  height:calc(100vh - 60px);
+  padding:14px;
+  overflow-y:auto;
+  font-size:14px;
+}
+.ok{color:#00ff66}
+.warn{color:#ffaa00}
+.deny{color:#ff3b3b}
+.dim{opacity:.65}
+</style>
+</head>
+
+<body>
+<div class="screen">
+  <div class="header">
+    <strong>Malware NETWORK TERMINAL</strong>
+    <div class="lights">
+      <span class="red"></span>
+      <span class="green"></span>
+    </div>
+  </div>
+
+  <div id="term" class="terminal"></div>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const sessionId = params.get("id") || Math.random().toString(36).slice(2).toUpperCase();
+
+const term = document.getElementById("term");
+
+function addLine(text, cls="ok"){
+  const p = document.createElement("p");
+  p.className = cls;
+  p.textContent = "> " + text;
+  term.appendChild(p);
+  term.scrollTop = term.scrollHeight;
+}
+
+// Initial lines
+addLine("Session ID: " + sessionId, "dim");
+addLine("Initializing secure environment...", "ok");
+
+// Network scan style logs
+const logs = [
+  ["Loading network modules...", "ok"],
+  ["Detecting interfaces...", "ok"],
+  ["Interface eth0 : ACTIVE", "ok"],
+  ["Interface wlan0 : ACTIVE", "ok"],
+  ["Synchronizing network clock...", "ok"],
+  ["Resolving routing tables...", "ok"],
+  ["Starting packet inspection...", "warn"],
+  ["Analyzing inbound traffic...", "warn"],
+  ["Analyzing outbound traffic...", "warn"],
+  ["Checking firewall policies...", "warn"],
+  ["Encryption layer verified", "ok"],
+  ["Monitoring latency patterns...", "warn"],
+  ["Scanning subnet segments...", "warn"],
+  ["Evaluating response behavior...", "warn"],
+  ["Background scan running...", "dim"],
+  ["Refreshing interface state...", "ok"],
+  ["Repeating scan cycle...", "dim"],
+  ["Re-checking open channels...", "warn"],
+  ["System load within limits", "ok"],
+  ["No critical anomaly detected", "ok"],
+  ["Continuing passive monitoring...", "dim"],
+  ["Permission level: RESTRICTED", "deny"],
+  ["Operation limited by policy", "deny"],
+  ["Maintaining secure state...", "ok"],
+  ["Finalizing network scan...", "ok"],
+  ["Closing active modules...", "ok"],
+  ["Session completed safely", "dim"]
+];
+
+// ⏱️ Timing
+// 15 seconds × ~40 cycles ≈ 10 minutes feel
+let index = 0;
+const intervalTime = 15000; // 15 sec
+
+const timer = setInterval(()=>{
+  if(index < logs.length){
+    addLine(logs[index][0], logs[index][1]);
+    index++;
+  } else {
+    addLine("Idle mode • Awaiting next session", "dim");
+    clearInterval(timer);
+  }
+}, intervalTime);
+</script>
+</body>
+</html>
